@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, PageHeader } from "@/components/site/SiteChrome";
 
 const industries = [
@@ -41,6 +41,14 @@ function IndustriesPage() {
               <div className="text-sm font-bold">{i}</div>
             </div>
           ))}
+        </div>
+        <div className="mt-16 flex flex-wrap justify-center gap-4">
+          <Link to="/products" className="px-8 py-4 bg-foreground text-background font-bold rounded-lg hover:opacity-90 transition-opacity">
+            Browse Products
+          </Link>
+          <Link to="/solutions" className="px-8 py-4 bg-background border border-border font-bold rounded-lg hover:bg-accent transition-colors">
+            View Solutions
+          </Link>
         </div>
       </section>
     </PageShell>
