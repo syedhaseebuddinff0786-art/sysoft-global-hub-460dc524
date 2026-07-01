@@ -19,6 +19,7 @@ import { Route as DocsRouteImport } from './routes/docs'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsCategoryRouteImport } from './routes/products.$category'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
+import { Route as PortalDashboardRouteImport } from './routes/portal.dashboard'
 
 const SolutionsRoute = SolutionsRouteImport.update({
   id: '/solutions',
@@ -70,6 +71,11 @@ const PortalLoginRoute = PortalLoginRouteImport.update({
   path: '/portal/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalDashboardRoute = PortalDashboardRouteImport.update({
+  id: '/portal/dashboard',
+  path: '/portal/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRoute
+  '/portal/dashboard': typeof PortalDashboardRoute
   '/portal/login': typeof PortalLoginRoute
   '/products/$category': typeof ProductsCategoryRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRoute
+  '/portal/dashboard': typeof PortalDashboardRoute
   '/portal/login': typeof PortalLoginRoute
   '/products/$category': typeof ProductsCategoryRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/solutions': typeof SolutionsRoute
+  '/portal/dashboard': typeof PortalDashboardRoute
   '/portal/login': typeof PortalLoginRoute
   '/products/$category': typeof ProductsCategoryRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/solutions'
+    | '/portal/dashboard'
     | '/portal/login'
     | '/products/$category'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/solutions'
+    | '/portal/dashboard'
     | '/portal/login'
     | '/products/$category'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/solutions'
+    | '/portal/dashboard'
     | '/portal/login'
     | '/products/$category'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SolutionsRoute: typeof SolutionsRoute
+  PortalDashboardRoute: typeof PortalDashboardRoute
   PortalLoginRoute: typeof PortalLoginRoute
 }
 
@@ -231,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/dashboard': {
+      id: '/portal/dashboard'
+      path: '/portal/dashboard'
+      fullPath: '/portal/dashboard'
+      preLoaderRoute: typeof PortalDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -255,6 +275,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SolutionsRoute: SolutionsRoute,
+  PortalDashboardRoute: PortalDashboardRoute,
   PortalLoginRoute: PortalLoginRoute,
 }
 export const routeTree = rootRouteImport
