@@ -1,32 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import { PageShell, PageHeader } from "@/components/site/SiteChrome";
-
-const categories = [
-  { code: "01/ERP", name: "Enterprise Resource Planning", desc: "Manufacturing, construction, and multi-entity operations." },
-  { code: "02/CRM", name: "Customer Relationship", desc: "Pipeline, sales automation, and support." },
-  { code: "03/EDU", name: "School / College / University", desc: "Full campus management suites." },
-  { code: "04/MED", name: "Hospital & Clinic", desc: "Patient records, appointments, pharmacy." },
-  { code: "05/POS", name: "Point of Sale", desc: "Retail, restaurant, and multi-branch POS." },
-  { code: "06/HRM", name: "HRMS & Payroll", desc: "Attendance, leave, payroll, and performance." },
-  { code: "07/INV", name: "Inventory & Warehouse", desc: "Real-time stock and warehouse automation." },
-  { code: "08/ACC", name: "Accounting & Billing", desc: "Ledger, invoicing, tax compliance." },
-  { code: "09/PRO", name: "Project & Task", desc: "Team collaboration at scale." },
-  { code: "10/COM", name: "E-commerce & Marketplace", desc: "Storefronts, auctions, subscriptions." },
-  { code: "11/AI", name: "AI & Automation", desc: "Predictive analytics and workflow bots." },
-  { code: "12/LOG", name: "Fleet & Logistics", desc: "Transport, courier, and delivery ops." },
-  { code: "13/HOS", name: "Hotel & Restaurant", desc: "Bookings, food delivery, kitchen ops." },
-  { code: "14/REA", name: "Real Estate & Property", desc: "Leasing, listings, and CRM." },
-  { code: "15/GOV", name: "Government & NGO", desc: "Public sector platforms." },
-  { code: "16/FIN", name: "Banking & Microfinance", desc: "Core banking, insurance, lending." },
-  { code: "17/LMS", name: "Learning Management", desc: "Enterprise training and certification." },
-  { code: "18/SEC", name: "Security & Compliance", desc: "Audits, monitoring, access control." },
-  { code: "19/GYM", name: "Gym & Salon", desc: "Memberships and appointment ops." },
-  { code: "20/AGR", name: "Agriculture", desc: "Farm, livestock, and supply chain." },
-  { code: "21/LEG", name: "Legal Management", desc: "Case, client, and document workflows." },
-  { code: "22/HEL", name: "Help Desk & Tickets", desc: "Support operations and SLA tracking." },
-  { code: "23/BOO", name: "Booking & Appointment", desc: "Multi-service scheduling engine." },
-  { code: "24/MOB", name: "Mobile Apps", desc: "Flutter & React Native suites." },
-];
+import { CATEGORIES, INDUSTRIES, TECHNOLOGIES } from "@/data/catalog";
 
 export const Route = createFileRoute("/products")({
   head: () => ({
@@ -43,6 +18,25 @@ export const Route = createFileRoute("/products")({
 });
 
 function ProductsPage() {
+  const [query, setQuery] = useState("");
+  const [industry, setIndustry] = useState<string>("All");
+  const [tech, setTech] = useState<string>("All");
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return CATEGORIES.filter((c) => {
+      if (industry !== "All" && !c.industries.includes(industry)) return false;
+      if (tech !== "All" && !c.technologies.includes(tech)) return false;
+      if (!q) return true;
+      return (
+        c.name.toLowerCase().includes(q) ||
+        c.tagline.toLowerCase().includes(q) ||
+        c.description.toLowerCase().includes(q) ||
+        c.modules.some((m) => m.toLowerCase().includes(q))
+      );
+    });
+  }, [query, industry, tech]);
+
   return (
     <PageShell>
       <PageHeader
@@ -51,16 +45,69 @@ function ProductsPage() {
         description="Ready-made SaaS platforms, web and mobile applications, and full source-code products for organizations of every size."
       />
       <section className="max-w-7xl mx-auto px-6 py-20">
+        <div className="mb-10 grid gap-4 md:grid-cols-[1fr_auto_auto] items-stretch">
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search products, modules, use cases…"
+            className="w-full px-4 py-3 bg-background border border-border rounded-md text-sm focus:outline-none focus:border-brand"
+            aria-label="Search products"
+          />
+          <select
+            value={industry}
+            onChange={(e) => setIndustry(e.target.value)}
+            className="px-4 py-3 bg-background border border-border rounded-md text-sm font-mono-tech uppercase tracking-wider focus:outline-none focus:border-brand"
+            aria-label="Filter by industry"
+          >
+            <option value="All">All Industries</option>
+            {INDUSTRIES.map((i) => (
+              <option key={i} value={i}>{i}</option>
+            ))}
+          </select>
+          <select
+            value={tech}
+            onChange={(e) => setTech(e.target.value)}
+            className="px-4 py-3 bg-background border border-border rounded-md text-sm font-mono-tech uppercase tracking-wider focus:outline-none focus:border-brand"
+            aria-label="Filter by technology"
+          >
+            <option value="All">All Technologies</option>
+            {TECHNOLOGIES.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-6 flex items-center justify-between text-xs font-mono-tech uppercase tracking-widest text-muted-foreground">
+          <span>[ {String(filtered.length).padStart(2, "0")} / {String(CATEGORIES.length).padStart(2, "0")} results ]</span>
+          {(query || industry !== "All" || tech !== "All") && (
+            <button
+              onClick={() => { setQuery(""); setIndustry("All"); setTech("All"); }}
+              className="text-brand hover:underline"
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-border border border-border">
-          {categories.map((c) => (
-            <div key={c.code} className="bg-background p-6 hover:bg-accent/40 transition-colors group">
+          {filtered.map((c) => (
+            <Link
+              key={c.code}
+              to="/products/$category"
+              params={{ category: c.slug }}
+              className="bg-background p-6 hover:bg-accent/40 transition-colors group block"
+            >
               <div className="font-mono-tech text-[10px] text-brand mb-4 uppercase tracking-wider">
                 {c.code}
               </div>
               <h3 className="font-bold mb-1 group-hover:text-brand transition-colors">{c.name}</h3>
-              <p className="text-xs text-muted-foreground">{c.desc}</p>
-            </div>
+              <p className="text-xs text-muted-foreground">{c.tagline}</p>
+            </Link>
           ))}
+          {filtered.length === 0 && (
+            <div className="col-span-full bg-background p-12 text-center text-sm text-muted-foreground">
+              No products match those filters.
+            </div>
+          )}
         </div>
         <div className="mt-16 text-center">
           <Link
