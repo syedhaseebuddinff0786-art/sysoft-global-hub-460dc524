@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/SiteChrome";
-import { CATEGORIES, getCategoryBySlug } from "@/data/catalog";
+import { CATEGORIES, getCategoryBySlug, type ProductCategory } from "@/data/catalog";
 
 export const Route = createFileRoute("/products/$category")({
   loader: ({ params }) => {
@@ -45,7 +45,7 @@ export const Route = createFileRoute("/products/$category")({
 });
 
 function CategoryPage() {
-  const { category: c } = Route.useLoaderData();
+  const { category: c } = Route.useLoaderData() as { category: ProductCategory };
   const related = CATEGORIES.filter(
     (x) => x.slug !== c.slug && x.industries.some((i) => c.industries.includes(i)),
   ).slice(0, 4);
