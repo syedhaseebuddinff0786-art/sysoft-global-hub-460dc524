@@ -154,15 +154,17 @@ export function PageHeader({
   description: string;
 }) {
   return (
-    <section className="border-b border-border bg-accent/30">
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-16">
-        <div className="font-mono-tech text-xs text-brand uppercase tracking-widest mb-4">
-          [ {eyebrow} ]
+    <section className="relative border-b border-border overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
+      <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-20 text-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card/60 backdrop-blur text-xs font-mono-tech text-muted-foreground mb-6">
+          <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_theme(colors.emerald.400)]" />
+          {eyebrow}
         </div>
-        <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight text-balance leading-[1.05] mb-6 max-w-3xl">
+        <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-balance leading-[1.02] mb-6 max-w-4xl mx-auto text-gradient">
           {title}
         </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl text-pretty">{description}</p>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">{description}</p>
       </div>
     </section>
   );
