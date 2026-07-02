@@ -79,45 +79,45 @@ export function Home() {
 function Hero() {
   return (
     <section className="relative pt-16 sm:pt-24 pb-20 border-b border-border overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+      <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_at_top,black,transparent_75%)]" />
+      <div className="relative max-w-6xl mx-auto px-6 text-center">
         <div className="animate-up">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/5 border border-brand/10 text-brand text-xs font-mono-tech font-medium mb-6">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand" />
-            </span>
-            v4.0 Enterprise Suite Now Available
-          </div>
-          <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-balance leading-[0.95] mb-8">
-            Building the Future of{" "}
-            <span className="text-muted-foreground">Business Software.</span>
+          <a href="#products" className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card/60 backdrop-blur text-xs font-mono-tech text-muted-foreground mb-8 hover:text-foreground transition-colors">
+            <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_theme(colors.emerald.400)]" />
+            The Official Enterprise Platform of SySoft <span aria-hidden>→</span>
+          </a>
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold tracking-tight text-balance leading-[0.98] mb-8 text-gradient">
+            Building the Future of Business Software
           </h1>
-          <p className="text-lg text-muted-foreground max-w-lg mb-10 text-pretty">
-            From ERP to AI-driven CRM, Syed Software Systems provides the technical
-            foundation for the world's most ambitious organizations across 140+ countries.
+          <p className="font-mono-tech text-sm sm:text-base text-brand mb-6">
+            &gt; One ecosystem. Many specialized suites._
           </p>
-          <div className="flex flex-wrap gap-4">
-            <a href="#products" className="px-8 py-4 bg-foreground text-background font-bold rounded-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
-              Deploy Enterprise Suite
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10 text-pretty">
+            SySoft Systems engineers ERP, CRM, AI, and vertical SaaS platforms — the
+            technical foundation trusted by the world's most ambitious organizations
+            across 140+ countries.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <a href="#products" className="px-6 py-3 bg-gradient-cta text-primary-foreground font-medium rounded-full shadow-[0_0_40px_-8px_oklch(0.7_0.2_260/70%)] hover:opacity-95 transition-opacity inline-flex items-center gap-2">
+              Explore Products <span aria-hidden>→</span>
             </a>
-            <a href="#docs" className="px-8 py-4 bg-background border border-border font-bold rounded-lg hover:bg-accent transition-all">
-              View Documentation
+            <a href="#docs" className="px-6 py-3 border border-border bg-card/60 backdrop-blur font-medium rounded-full hover:bg-white/5 transition-colors">
+              Discover the Ecosystem
             </a>
           </div>
         </div>
 
-        <div className="relative animate-up [animation-delay:200ms]">
-          <div className="relative z-10 bg-card rounded-xl shadow-2xl border border-border p-2">
+        <div className="relative animate-up [animation-delay:200ms] mt-20">
+          <div className="absolute inset-x-0 -top-16 h-64 bg-[radial-gradient(ellipse_at_center,oklch(0.7_0.2_260/40%),transparent_70%)] -z-10" />
+          <div className="relative bg-card/60 backdrop-blur rounded-2xl shadow-2xl border border-border p-2">
             <img
               src={dashboardPreview}
               alt="SySoft enterprise analytics dashboard preview"
               width={1280}
               height={960}
-              className="w-full aspect-[4/3] object-cover rounded-lg"
+              className="w-full aspect-[16/10] object-cover rounded-xl"
             />
           </div>
-          <div className="absolute -top-12 -right-12 w-64 h-64 bg-brand/10 rounded-full blur-3xl -z-0" />
-          <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-brand-muted rounded-full blur-3xl -z-0" />
         </div>
       </div>
     </section>
