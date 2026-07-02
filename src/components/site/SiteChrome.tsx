@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import sysoftLogo from "@/assets/sysoft-logo.ico.asset.json";
 
 const navLinks = [
   { to: "/products", label: "Products" },
@@ -14,7 +15,8 @@ export function SiteNav() {
     <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link to="/" className="font-mono-tech font-bold text-lg tracking-tighter">
+          <Link to="/" className="flex items-center gap-2 font-mono-tech font-bold text-lg tracking-tighter">
+            <img src={sysoftLogo.url} alt="SySoft Systems logo" className="size-7" />
             SYSOFT<span className="text-brand">_</span>SYSTEMS
           </Link>
           <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-muted-foreground">
@@ -87,7 +89,8 @@ export function SiteFooter() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 lg:gap-12 mb-16">
           <div className="col-span-2">
-            <div className="font-mono-tech font-bold text-xl tracking-tighter mb-6">
+            <div className="flex items-center gap-2 font-mono-tech font-bold text-xl tracking-tighter mb-6">
+              <img src={sysoftLogo.url} alt="SySoft Systems logo" className="size-8" />
               SYSOFT<span className="text-brand">_</span>SYSTEMS
             </div>
             <p className="text-muted-foreground text-sm mb-6 leading-relaxed max-w-xs">
