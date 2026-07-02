@@ -12,39 +12,39 @@ const navLinks = [
 
 export function SiteNav() {
   return (
-    <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div className="sticky top-4 z-50 px-4">
+      <nav className="max-w-6xl mx-auto rounded-full border border-border bg-card/70 backdrop-blur-xl shadow-[0_8px_40px_-12px_oklch(0_0_0/60%)] pl-4 pr-2 h-14 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link to="/" className="flex items-center gap-2 font-mono-tech font-bold text-lg tracking-tighter">
-            <img src={sysoftLogo.url} alt="SySoft Systems logo" className="size-7" />
-            SYSOFT<span className="text-brand">_</span>SYSTEMS
+          <Link to="/" className="flex items-center gap-2.5 font-mono-tech font-semibold text-sm tracking-tight">
+            <img src={sysoftLogo.url} alt="SySoft Systems logo" className="size-6 rounded-full" />
+            <span className="hidden sm:inline">SYSOFT<span className="text-brand">_</span>SYSTEMS</span>
           </Link>
-          <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-muted-foreground">
+          <div className="hidden lg:flex items-center gap-1 text-sm text-muted-foreground">
             {navLinks.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
-                className="hover:text-brand transition-colors"
-                activeProps={{ className: "text-brand" }}
+                className="px-3 py-1.5 rounded-full hover:text-foreground hover:bg-white/5 transition-colors"
+                activeProps={{ className: "text-foreground bg-white/5" }}
               >
                 {l.label}
               </Link>
             ))}
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <Link to="/portal/login" className="hidden sm:inline text-sm font-medium hover:text-brand transition-colors">
-            Login
+        <div className="flex items-center gap-2">
+          <Link to="/portal/login" className="hidden sm:inline px-3 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            Sign in
           </Link>
           <Link
             to="/pricing"
-            className="bg-brand text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity"
+            className="bg-gradient-cta text-primary-foreground px-4 py-2 rounded-full text-sm font-medium shadow-[0_0_24px_-4px_oklch(0.7_0.2_260/60%)] hover:opacity-95 transition-opacity inline-flex items-center gap-1.5"
           >
-            Get Started
+            Get started <span aria-hidden>→</span>
           </Link>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }
 
@@ -154,15 +154,17 @@ export function PageHeader({
   description: string;
 }) {
   return (
-    <section className="border-b border-border bg-accent/30">
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-16">
-        <div className="font-mono-tech text-xs text-brand uppercase tracking-widest mb-4">
-          [ {eyebrow} ]
+    <section className="relative border-b border-border overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
+      <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-20 text-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card/60 backdrop-blur text-xs font-mono-tech text-muted-foreground mb-6">
+          <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_theme(colors.emerald.400)]" />
+          {eyebrow}
         </div>
-        <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight text-balance leading-[1.05] mb-6 max-w-3xl">
+        <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-balance leading-[1.02] mb-6 max-w-4xl mx-auto text-gradient">
           {title}
         </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl text-pretty">{description}</p>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">{description}</p>
       </div>
     </section>
   );
