@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import sysoftLogo from "@/assets/sysoft-logo.png.asset.json";
+
+const sysoftLogoUrl = "/sysoft-logo.png";
 
 const navLinks = [
   { to: "/products", label: "Products" },
@@ -16,7 +17,17 @@ export function SiteNav() {
       <nav className="max-w-6xl mx-auto rounded-full border border-border bg-card/70 backdrop-blur-xl shadow-[0_8px_40px_-12px_oklch(0_0_0/60%)] pl-4 pr-2 h-14 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2.5 font-mono-tech font-semibold text-sm tracking-tight">
-            <img src={sysoftLogo.url} alt="SySoft Systems logo" className="size-6 rounded-full" />
+            <span className="relative size-6 rounded-full bg-card border border-border flex items-center justify-center overflow-hidden shrink-0">
+              <span className="font-mono-tech text-[8px] font-bold tracking-tighter text-foreground" aria-hidden="true">S$S</span>
+              <img
+                src={sysoftLogoUrl}
+                alt="SySoft Systems logo"
+                className="absolute inset-0 size-full rounded-full object-contain"
+                onError={(event) => {
+                  event.currentTarget.style.display = "none";
+                }}
+              />
+            </span>
             <span className="hidden sm:inline">SYSOFT<span className="text-brand">_</span>SYSTEMS</span>
           </Link>
           <div className="hidden lg:flex items-center gap-1 text-sm text-muted-foreground">
@@ -90,7 +101,17 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 lg:gap-12 mb-16">
           <div className="col-span-2">
             <div className="flex items-center gap-2 font-mono-tech font-bold text-xl tracking-tighter mb-6">
-              <img src={sysoftLogo.url} alt="SySoft Systems logo" className="size-8" />
+              <span className="relative size-8 rounded-full bg-card border border-border flex items-center justify-center overflow-hidden shrink-0">
+                <span className="font-mono-tech text-[10px] font-bold tracking-tighter text-foreground" aria-hidden="true">S$S</span>
+                <img
+                  src={sysoftLogoUrl}
+                  alt="SySoft Systems logo"
+                  className="absolute inset-0 size-full object-contain"
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                  }}
+                />
+              </span>
               SYSOFT<span className="text-brand">_</span>SYSTEMS
             </div>
             <p className="text-muted-foreground text-sm mb-6 leading-relaxed max-w-xs">
