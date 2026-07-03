@@ -1,6 +1,6 @@
 import { useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import loaderLogo from "@/assets/sysoft-loader.ico.asset.json";
+import loaderLogo from "@/assets/sysoft-loader.png.asset.json";
 
 /**
  * Full-screen overlay shown between route changes.
@@ -15,6 +15,15 @@ export function RouteTransitionLoader() {
   // exit animation can play.
   const [visible, setVisible] = useState(false);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const lastFocused = useRef<Element | null>(null);
+
+  // Preload the loader logo once on mount to avoid layout shift / flash on first navigation.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const img = new Image();
+    img.src = loaderLogo.url;
+  }, []);
 
   useEffect(() => {
     if (isNavigating) {
@@ -28,13 +37,35 @@ export function RouteTransitionLoader() {
     };
   }, [isNavigating, visible]);
 
+  // Lock body scroll and move focus into the overlay while it is visible.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (!visible) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    lastFocused.current = document.activeElement;
+    overlayRef.current?.focus();
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      if (lastFocused.current instanceof HTMLElement) {
+        lastFocused.current.focus({ preventScroll: true });
+      }
+    };
+  }, [visible]);
+
   if (!visible) return null;
 
   return (
     <div
-      aria-hidden={!isNavigating}
-      className={`fixed inset-0 z-[100] flex items-center justify-center pointer-events-none transition-opacity duration-300 ${
-        isNavigating ? "opacity-100" : "opacity-0"
+      ref={overlayRef}
+      role="alertdialog"
+      aria-modal="true"
+      aria-live="assertive"
+      aria-busy={isNavigating}
+      aria-label="Loading next page"
+      tabIndex={-1}
+      className={`fixed inset-0 z-[100] flex items-center justify-center outline-none transition-opacity duration-300 will-change-[opacity] ${
+        isNavigating ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
       {/* Backdrop */}
