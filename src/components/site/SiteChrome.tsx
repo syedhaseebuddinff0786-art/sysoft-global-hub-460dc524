@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import sysoftLogo from "@/assets/sysoft-logo.ico.asset.json";
+import sysoftLogo from "@/assets/sysoft-logo.png.asset.json";
 
 const navLinks = [
   { to: "/products", label: "Products" },
