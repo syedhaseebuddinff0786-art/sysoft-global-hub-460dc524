@@ -101,6 +101,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preload", href: "/sysoft-logo.png", as: "image", type: "image/png" },
+      { rel: "preload", href: "/sysoft-loader.png", as: "image", type: "image/png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -122,6 +124,29 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <div
+          id="sysoft-startup-loader"
+          role="status"
+          aria-live="polite"
+          aria-label="Loading SySoft Systems"
+        >
+          <div className="sysoft-startup-loader__backdrop" />
+          <div className="sysoft-startup-loader__grid" />
+          <div className="sysoft-startup-loader__content">
+            <div className="sysoft-startup-loader__mark">
+              <div className="sysoft-startup-loader__glow" />
+              <div className="sysoft-startup-loader__ring" />
+              <div className="sysoft-startup-loader__ring sysoft-startup-loader__ring--slow" />
+              <div className="sysoft-startup-loader__logo-wrap">
+                <span aria-hidden="true">S$S</span>
+                <img src="/sysoft-loader.png" alt="SySoft Systems" />
+                <span className="sysoft-startup-loader__shine" aria-hidden="true" />
+              </div>
+            </div>
+            <div className="sysoft-startup-loader__bar"><span /></div>
+            <div className="sysoft-startup-loader__label">Loading Module</div>
+          </div>
+        </div>
         {children}
         <Scripts />
       </body>
