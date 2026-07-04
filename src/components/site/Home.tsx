@@ -1,5 +1,9 @@
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
 import { SiteNav, SiteFooter } from "@/components/site/SiteChrome";
+import { Hero3D } from "@/components/site/Hero3D";
+import { EcosystemNetwork } from "@/components/site/EcosystemNetwork";
+import { MagneticButton, TiltCard } from "@/components/site/MagneticButton";
+import { Reveal } from "@/components/site/Reveal";
 
 const categories = [
   { code: "01/ERP", name: "Enterprise Resource", desc: "Operational logistics and planning." },
@@ -60,6 +64,7 @@ export function Home() {
       <main>
         <Hero />
         <TrustBar />
+        <EcosystemNetwork />
         <CategoryGrid />
         <StatsBand />
         <IndustriesSection />
@@ -78,11 +83,18 @@ export function Home() {
 
 function Hero() {
   return (
-    <section className="relative pt-16 sm:pt-24 pb-20 border-b border-border overflow-hidden">
-      <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_at_top,black,transparent_75%)]" />
-      <div className="relative max-w-6xl mx-auto px-6 text-center">
+    <section className="relative pt-16 sm:pt-24 pb-20 border-b border-border overflow-hidden min-h-[92vh] flex items-center">
+      <div className="absolute inset-0 grid-bg opacity-30 [mask-image:radial-gradient(ellipse_at_top,black,transparent_75%)]" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]">
+          <Hero3D />
+        </div>
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
+      </div>
+      <div className="relative max-w-6xl mx-auto px-6 text-center w-full">
         <div className="animate-up">
-          <a href="#products" className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card/60 backdrop-blur text-xs font-mono-tech text-muted-foreground mb-8 hover:text-foreground transition-colors">
+          <a href="#products" className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card/60 backdrop-blur-xl text-xs font-mono-tech text-muted-foreground mb-8 hover:text-foreground transition-colors">
             <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_theme(colors.emerald.400)]" />
             The Official Enterprise Platform of SySoft <span aria-hidden>→</span>
           </a>
@@ -92,31 +104,33 @@ function Hero() {
           <p className="font-mono-tech text-sm sm:text-base text-brand mb-6">
             &gt; One ecosystem. Many specialized suites._
           </p>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10 text-pretty">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10 text-pretty backdrop-blur-[2px]">
             SySoft Systems engineers ERP, CRM, AI, and vertical SaaS platforms — the
             technical foundation trusted by the world's most ambitious organizations
             across 140+ countries.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <a href="#products" className="px-6 py-3 bg-gradient-cta text-primary-foreground font-medium rounded-full shadow-[0_0_40px_-8px_oklch(0.7_0.2_260/70%)] hover:opacity-95 transition-opacity inline-flex items-center gap-2">
+            <MagneticButton
+              href="#products"
+              className="px-6 py-3 bg-gradient-cta text-primary-foreground font-medium rounded-full shadow-[0_0_40px_-8px_oklch(0.7_0.2_260/70%)] hover:shadow-[0_0_60px_-6px_oklch(0.7_0.2_260/85%)] hover:opacity-95 transition-all"
+            >
               Explore Products <span aria-hidden>→</span>
-            </a>
-            <a href="#docs" className="px-6 py-3 border border-border bg-card/60 backdrop-blur font-medium rounded-full hover:bg-white/5 transition-colors">
+            </MagneticButton>
+            <MagneticButton
+              href="#docs"
+              strength={0.2}
+              className="px-6 py-3 border border-border bg-card/60 backdrop-blur-xl font-medium rounded-full hover:bg-white/5 transition-colors"
+            >
               Discover the Ecosystem
-            </a>
+            </MagneticButton>
           </div>
-        </div>
-
-        <div className="relative animate-up [animation-delay:200ms] mt-20">
-          <div className="absolute inset-x-0 -top-16 h-64 bg-[radial-gradient(ellipse_at_center,oklch(0.7_0.2_260/40%),transparent_70%)] -z-10" />
-          <div className="relative bg-card/60 backdrop-blur rounded-2xl shadow-2xl border border-border p-2">
-            <img
-              src={dashboardPreview}
-              alt="SySoft enterprise analytics dashboard preview"
-              width={1280}
-              height={960}
-              className="w-full aspect-[16/10] object-cover rounded-xl"
-            />
+          <div className="mt-16 flex flex-wrap justify-center gap-2 text-[10px] font-mono-tech uppercase tracking-widest text-muted-foreground">
+            {["neural-core online", "140+ regions", "99.99% sla", "sync stable"].map((s) => (
+              <span key={s} className="px-3 py-1.5 rounded-full border border-border bg-card/40 backdrop-blur-xl inline-flex items-center gap-2">
+                <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                {s}
+              </span>
+            ))}
           </div>
         </div>
       </div>
@@ -145,7 +159,7 @@ function TrustBar() {
 function CategoryGrid() {
   return (
     <section id="products" className="py-24 max-w-7xl mx-auto px-6">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mb-16">
+      <Reveal className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mb-16">
         <div>
           <div className="font-mono-tech text-xs text-brand uppercase tracking-widest mb-3">
             [ Product Ecosystem ]
@@ -160,22 +174,25 @@ function CategoryGrid() {
         <a href="#all" className="text-brand font-semibold hover:underline shrink-0">
           Browse All Products →
         </a>
-      </div>
+      </Reveal>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-border border border-border">
-        {categories.map((c) => (
-          <div
-            key={c.code}
-            className="bg-background p-6 hover:bg-accent/40 transition-colors cursor-pointer group"
-          >
-            <div className="font-mono-tech text-[10px] text-brand mb-4 uppercase tracking-wider">
-              {c.code}
-            </div>
-            <h3 className="font-bold mb-1 group-hover:text-brand transition-colors">
-              {c.name}
-            </h3>
-            <p className="text-xs text-muted-foreground">{c.desc}</p>
-          </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        {categories.map((c, i) => (
+          <Reveal key={c.code} delay={(i % 6) * 60}>
+            <TiltCard
+              intensity={6}
+              className="relative rounded-xl border border-border bg-card/40 backdrop-blur-xl p-5 h-full overflow-hidden group hover:border-brand/40 transition-colors"
+            >
+              <div className="pointer-events-none absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity bg-[linear-gradient(135deg,oklch(0.75_0.18_240/0.2),transparent_60%)]" />
+              <div className="font-mono-tech text-[10px] text-brand mb-4 uppercase tracking-wider">
+                {c.code}
+              </div>
+              <h3 className="font-bold mb-1 group-hover:text-brand transition-colors">
+                {c.name}
+              </h3>
+              <p className="text-xs text-muted-foreground">{c.desc}</p>
+            </TiltCard>
+          </Reveal>
         ))}
       </div>
     </section>
