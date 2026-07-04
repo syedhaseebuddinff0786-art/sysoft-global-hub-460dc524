@@ -1,4 +1,3 @@
-import dashboardPreview from "@/assets/dashboard-preview.jpg";
 import { SiteNav, SiteFooter } from "@/components/site/SiteChrome";
 import { Hero3D } from "@/components/site/Hero3D";
 import { EcosystemNetwork } from "@/components/site/EcosystemNetwork";
