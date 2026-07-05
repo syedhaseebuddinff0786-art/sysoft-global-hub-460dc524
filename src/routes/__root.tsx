@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { RouteTransitionLoader } from "@/components/site/RouteTransitionLoader";
+import { CustomCursor } from "@/components/site/CustomCursor";
+import { AuroraBackground } from "@/components/site/AuroraBackground";
 
 function NotFoundComponent() {
   return (
@@ -159,6 +161,8 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AuroraBackground />
+      <CustomCursor />
       <RouteTransitionLoader />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
