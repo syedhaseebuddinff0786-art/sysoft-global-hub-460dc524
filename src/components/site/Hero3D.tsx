@@ -106,6 +106,7 @@ function Nodes() {
 export function Hero3D() {
   const mouse = useRef({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
+  const [unfolded, setUnfolded] = useState(false);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -131,7 +132,7 @@ export function Hero3D() {
       <pointLight position={[-4, -2, -2]} intensity={2} color="#7a5cff" />
       <pointLight position={[4, 3, 2]} intensity={1.5} color="#3ad7ff" />
       <Suspense fallback={null}>
-        <Core mouse={mouse} />
+        <TripleS mouse={mouse} unfolded={unfolded} onClick={() => setUnfolded((v) => !v)} />
         <Nodes />
         <Sparkles count={80} scale={[8, 6, 6]} size={2} speed={0.4} color="#8ab4ff" opacity={0.6} />
         <Environment preset="city" />
