@@ -111,18 +111,21 @@ function Hero() {
           <div className="flex flex-wrap gap-3 justify-center">
             <MagneticButton
               href="#products"
-              className="px-6 py-3 bg-gradient-cta text-primary-foreground font-medium rounded-full shadow-[0_0_40px_-8px_oklch(0.7_0.2_260/70%)] hover:shadow-[0_0_60px_-6px_oklch(0.7_0.2_260/85%)] hover:opacity-95 transition-all"
+              className="btn-glass cursor-magnet px-6 py-3 bg-gradient-cta text-primary-foreground font-medium rounded-full shadow-[0_0_40px_-8px_oklch(0.7_0.2_260/70%)] hover:shadow-[0_0_60px_-6px_oklch(0.7_0.2_260/85%)] hover:opacity-95 transition-all"
             >
               Explore Products <span aria-hidden>→</span>
             </MagneticButton>
             <MagneticButton
               href="#docs"
               strength={0.2}
-              className="px-6 py-3 border border-border bg-card/60 backdrop-blur-xl font-medium rounded-full hover:bg-white/5 transition-colors"
+              className="btn-glass cursor-magnet px-6 py-3 border border-border bg-card/60 backdrop-blur-xl font-medium rounded-full hover:bg-white/5 transition-colors"
             >
               Discover the Ecosystem
             </MagneticButton>
           </div>
+          <p className="mt-6 font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground/70">
+            Tip: Click the core to unfold the ecosystem
+          </p>
           <div className="mt-16 flex flex-wrap justify-center gap-2 text-[10px] font-mono-tech uppercase tracking-widest text-muted-foreground">
             {["neural-core online", "140+ regions", "99.99% sla", "sync stable"].map((s) => (
               <span key={s} className="px-3 py-1.5 rounded-full border border-border bg-card/40 backdrop-blur-xl inline-flex items-center gap-2">

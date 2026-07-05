@@ -1,56 +1,73 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Sparkles, Environment } from "@react-three/drei";
+import { Float, Sparkles, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-function Core({ mouse }: { mouse: React.MutableRefObject<{ x: number; y: number }> }) {
+function TripleS({
+  mouse,
+  unfolded,
+  onClick,
+}: {
+  mouse: React.MutableRefObject<{ x: number; y: number }>;
+  unfolded: boolean;
+  onClick: () => void;
+}) {
   const group = useRef<THREE.Group>(null);
-  const inner = useRef<THREE.Mesh>(null);
+  const letters = useRef<THREE.Group>(null);
   useFrame((state, delta) => {
-    if (!group.current) return;
-    group.current.rotation.y += delta * 0.15;
+    if (!group.current || !letters.current) return;
+    group.current.rotation.y += delta * (unfolded ? 0.06 : 0.28);
     group.current.rotation.x = THREE.MathUtils.lerp(
       group.current.rotation.x,
-      mouse.current.y * 0.35,
+      mouse.current.y * 0.25,
       0.05,
     );
     group.current.position.x = THREE.MathUtils.lerp(
       group.current.position.x,
-      mouse.current.x * 0.4,
+      mouse.current.x * 0.35,
       0.05,
     );
-    if (inner.current) {
-      const s = 1 + Math.sin(state.clock.elapsedTime * 1.5) * 0.03;
-      inner.current.scale.setScalar(s);
-    }
+    const breath = 1 + Math.sin(state.clock.elapsedTime * 1.2) * 0.03;
+    group.current.scale.setScalar(breath);
+    letters.current.children.forEach((child, i) => {
+      const target = unfolded ? (i - 1) * 2.6 : (i - 1) * 1.15;
+      child.position.x = THREE.MathUtils.lerp(child.position.x, target, 0.08);
+      child.rotation.z = THREE.MathUtils.lerp(
+        child.rotation.z,
+        unfolded ? Math.sin(state.clock.elapsedTime + i) * 0.5 : 0,
+        0.06,
+      );
+    });
   });
+
   return (
-    <group ref={group}>
-      {/* Distorted core sphere */}
-      <Float speed={1.2} rotationIntensity={0.4} floatIntensity={0.8}>
-        <mesh ref={inner}>
-          <icosahedronGeometry args={[1.15, 8]} />
-          <MeshDistortMaterial
-            color="#4b7dff"
-            emissive="#1a4aff"
-            emissiveIntensity={0.4}
-            distort={0.35}
-            speed={1.6}
-            roughness={0.15}
-            metalness={0.85}
-          />
-        </mesh>
+    <group ref={group} onClick={onClick}>
+      <Float speed={1.1} rotationIntensity={0.25} floatIntensity={0.55}>
+        <group ref={letters}>
+          {[0, 1, 2].map((i) => (
+            <mesh key={i} position={[(i - 1) * 1.15, 0, 0]}>
+              <torusKnotGeometry args={[0.44, 0.15, 160, 28, 2, 3]} />
+              <meshPhysicalMaterial
+                color={i === 1 ? "#8ab4ff" : "#d6dde8"}
+                metalness={0.98}
+                roughness={0.16}
+                clearcoat={1}
+                clearcoatRoughness={0.04}
+                reflectivity={1}
+                envMapIntensity={1.5}
+                emissive={i === 1 ? "#1a4aff" : "#000000"}
+                emissiveIntensity={i === 1 ? 0.35 : 0}
+              />
+            </mesh>
+          ))}
+        </group>
       </Float>
-      {/* Wireframe outer shell */}
-      <mesh>
-        <icosahedronGeometry args={[1.7, 2]} />
-        <meshBasicMaterial color="#7aa2ff" wireframe transparent opacity={0.18} />
-      </mesh>
+
       {/* Orbit rings */}
       {[0, 1, 2].map((i) => (
-        <mesh key={i} rotation={[Math.PI / 2 + i * 0.6, i * 0.9, i * 0.3]}>
-          <torusGeometry args={[2.1 + i * 0.35, 0.008, 12, 128]} />
-          <meshBasicMaterial color="#8ab4ff" transparent opacity={0.35 - i * 0.08} />
+        <mesh key={`r${i}`} rotation={[Math.PI / 2 + i * 0.6, i * 0.9, i * 0.3]}>
+          <torusGeometry args={[2.1 + i * 0.35, 0.006, 12, 128]} />
+          <meshBasicMaterial color="#8ab4ff" transparent opacity={0.3 - i * 0.07} />
         </mesh>
       ))}
     </group>
@@ -89,6 +106,7 @@ function Nodes() {
 export function Hero3D() {
   const mouse = useRef({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
+  const [unfolded, setUnfolded] = useState(false);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -114,7 +132,7 @@ export function Hero3D() {
       <pointLight position={[-4, -2, -2]} intensity={2} color="#7a5cff" />
       <pointLight position={[4, 3, 2]} intensity={1.5} color="#3ad7ff" />
       <Suspense fallback={null}>
-        <Core mouse={mouse} />
+        <TripleS mouse={mouse} unfolded={unfolded} onClick={() => setUnfolded((v) => !v)} />
         <Nodes />
         <Sparkles count={80} scale={[8, 6, 6]} size={2} speed={0.4} color="#8ab4ff" opacity={0.6} />
         <Environment preset="city" />

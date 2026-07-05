@@ -386,3 +386,132 @@
 @utility loader-progress {
   animation: loader-progress 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
+
+/* ========== Aurora animated background ========== */
+.sysoft-aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.sysoft-aurora__blob {
+  position: absolute;
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+.sysoft-aurora__blob--1 {
+  top: -20%;
+  left: -10%;
+  background: radial-gradient(circle at 30% 30%, oklch(0.55 0.22 265 / 0.9), transparent 65%);
+  animation: aurora-drift-1 22s ease-in-out infinite alternate;
+}
+.sysoft-aurora__blob--2 {
+  top: 20%;
+  right: -20%;
+  background: radial-gradient(circle at 50% 50%, oklch(0.55 0.2 210 / 0.85), transparent 65%);
+  animation: aurora-drift-2 26s ease-in-out infinite alternate;
+}
+.sysoft-aurora__blob--3 {
+  bottom: -30%;
+  left: 20%;
+  background: radial-gradient(circle at 50% 50%, oklch(0.5 0.22 300 / 0.7), transparent 65%);
+  animation: aurora-drift-3 30s ease-in-out infinite alternate;
+}
+.sysoft-aurora__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(oklch(1 0 0 / 3%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 3%) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at center, black, transparent 75%);
+  opacity: 0.4;
+}
+.sysoft-aurora__noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: radial-gradient(oklch(1 0 0 / 60%) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+@keyframes aurora-drift-1 {
+  0% { transform: translate3d(0,0,0) scale(1); }
+  100% { transform: translate3d(8vw, 6vh, 0) scale(1.15); }
+}
+@keyframes aurora-drift-2 {
+  0% { transform: translate3d(0,0,0) scale(1.05); }
+  100% { transform: translate3d(-10vw, 4vh, 0) scale(1); }
+}
+@keyframes aurora-drift-3 {
+  0% { transform: translate3d(0,0,0) scale(1); }
+  100% { transform: translate3d(6vw, -8vh, 0) scale(1.2); }
+}
+
+/* ========== Custom cursor ========== */
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor body,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button,
+  html.has-custom-cursor [role="button"] {
+    cursor: none;
+  }
+}
+.sysoft-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 2147483646;
+  will-change: transform;
+}
+.sysoft-cursor__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: oklch(0.9 0.14 240);
+  box-shadow: 0 0 12px oklch(0.75 0.2 250 / 0.9);
+  mix-blend-mode: screen;
+}
+.sysoft-cursor__ring {
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  border: 1px solid oklch(0.85 0.12 240 / 0.6);
+  transition: width 0.25s ease, height 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+  backdrop-filter: blur(2px);
+}
+.sysoft-cursor__ring[data-hover="true"] {
+  width: 56px;
+  height: 56px;
+  background: oklch(0.75 0.18 245 / 0.15);
+  border-color: oklch(0.9 0.16 240 / 0.9);
+}
+@media (hover: none), (pointer: coarse) {
+  .sysoft-cursor { display: none; }
+}
+
+/* ========== Premium button feel ========== */
+@utility btn-glass {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 20%, oklch(1 0 0 / 25%) 50%, transparent 80%);
+  transform: translateX(-120%);
+  transition: transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  pointer-events: none;
+}
+.btn-glass:hover::before {
+  transform: translateX(120%);
+}
