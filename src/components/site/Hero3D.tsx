@@ -1,6 +1,6 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Sparkles, Environment, Text3D, Center } from "@react-three/drei";
+import { Float, Sparkles, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
 function TripleS({
@@ -15,98 +15,8 @@ function TripleS({
   const group = useRef<THREE.Group>(null);
   const letters = useRef<THREE.Group>(null);
   useFrame((state, delta) => {
-    if (!group.current) return;
-    group.current.rotation.y += delta * (unfolded ? 0.05 : 0.25);
-    group.current.rotation.x = THREE.MathUtils.lerp(
-      group.current.rotation.x,
-      mouse.current.y * 0.25,
-      0.05,
-    );
-    group.current.position.x = THREE.MathUtils.lerp(
-      group.current.position.x,
-      mouse.current.x * 0.35,
-      0.05,
-    );
-    // idle breathing
-    const breath = 1 + Math.sin(state.clock.elapsedTime * 1.2) * 0.025;
-    group.current.scale.setScalar(unfolded ? breath * 0.85 : breath);
-
-    if (letters.current) {
-      letters.current.children.forEach((child, i) => {
-        const target = unfolded ? (i - 1) * 2.1 : (i - 1) * 0.85;
-        child.position.x = THREE.MathUtils.lerp(child.position.x, target, 0.08);
-        child.rotation.y = THREE.MathUtils.lerp(
-          child.rotation.y,
-          unfolded ? Math.sin(state.clock.elapsedTime + i) * 0.4 : 0,
-          0.05,
-        );
-      });
-    }
-  });
-
-  return (
-    <group ref={group} onClick={onClick}>
-      <Float speed={1.1} rotationIntensity={0.25} floatIntensity={0.6}>
-        <group ref={letters}>
-          {[0, 1, 2].map((i) => (
-            <Center key={i} position={[(i - 1) * 0.85, 0, 0]}>
-              <Text3D
-                font="/fonts/inter-bold.json"
-                size={0.9}
-                height={0.28}
-                bevelEnabled
-                bevelSegments={4}
-                bevelSize={0.03}
-                bevelThickness={0.04}
-                curveSegments={12}
-              >
-                S
-                <meshPhysicalMaterial
-                  color={i === 1 ? "#8ab4ff" : "#c9d4e5"}
-                  metalness={0.95}
-                  roughness={0.18}
-                  clearcoat={1}
-                  clearcoatRoughness={0.05}
-                  reflectivity={1}
-                  envMapIntensity={1.4}
-                  emissive={i === 1 ? "#1a4aff" : "#000000"}
-                  emissiveIntensity={i === 1 ? 0.35 : 0}
-                />
-              </Text3D>
-            </Center>
-          ))}
-        </group>
-      </Float>
-
-      {/* Glass halo */}
-      <mesh>
-        <torusGeometry args={[2.4, 0.02, 16, 160]} />
-        <meshBasicMaterial color="#8ab4ff" transparent opacity={0.35} />
-      </mesh>
-      {[0, 1, 2].map((i) => (
-        <mesh key={i} rotation={[Math.PI / 2 + i * 0.6, i * 0.9, i * 0.3]}>
-          <torusGeometry args={[2.1 + i * 0.35, 0.006, 12, 128]} />
-          <meshBasicMaterial color="#8ab4ff" transparent opacity={0.28 - i * 0.06} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-// Fallback: if Text3D font fails, render metallic glass spheres arranged as SSS
-function TripleSFallback({
-  mouse,
-  unfolded,
-  onClick,
-}: {
-  mouse: React.MutableRefObject<{ x: number; y: number }>;
-  unfolded: boolean;
-  onClick: () => void;
-}) {
-  const group = useRef<THREE.Group>(null);
-  useFrame((state, delta) => {
-    if (!group.current) return;
-    group.current.rotation.y += delta * (unfolded ? 0.05 : 0.2);
+    if (!group.current || !letters.current) return;
+    group.current.rotation.y += delta * (unfolded ? 0.06 : 0.28);
     group.current.rotation.x = THREE.MathUtils.lerp(
       group.current.rotation.x,
       mouse.current.y * 0.25,
@@ -119,35 +29,45 @@ function TripleSFallback({
     );
     const breath = 1 + Math.sin(state.clock.elapsedTime * 1.2) * 0.03;
     group.current.scale.setScalar(breath);
-    group.current.children.forEach((child, i) => {
-      if (i < 3) {
-        const target = unfolded ? (i - 1) * 2.4 : (i - 1) * 1.1;
-        child.position.x = THREE.MathUtils.lerp(child.position.x, target, 0.08);
-      }
+    letters.current.children.forEach((child, i) => {
+      const target = unfolded ? (i - 1) * 2.6 : (i - 1) * 1.15;
+      child.position.x = THREE.MathUtils.lerp(child.position.x, target, 0.08);
+      child.rotation.z = THREE.MathUtils.lerp(
+        child.rotation.z,
+        unfolded ? Math.sin(state.clock.elapsedTime + i) * 0.5 : 0,
+        0.06,
+      );
     });
   });
+
   return (
     <group ref={group} onClick={onClick}>
-      {[0, 1, 2].map((i) => (
-        <mesh key={i} position={[(i - 1) * 1.1, 0, 0]}>
-          <torusKnotGeometry args={[0.42, 0.14, 128, 24, 2, 3]} />
-          <meshPhysicalMaterial
-            color={i === 1 ? "#8ab4ff" : "#c9d4e5"}
-            metalness={0.95}
-            roughness={0.18}
-            clearcoat={1}
-            clearcoatRoughness={0.05}
-            reflectivity={1}
-            envMapIntensity={1.4}
-            emissive={i === 1 ? "#1a4aff" : "#000000"}
-            emissiveIntensity={i === 1 ? 0.3 : 0}
-          />
-        </mesh>
-      ))}
+      <Float speed={1.1} rotationIntensity={0.25} floatIntensity={0.55}>
+        <group ref={letters}>
+          {[0, 1, 2].map((i) => (
+            <mesh key={i} position={[(i - 1) * 1.15, 0, 0]}>
+              <torusKnotGeometry args={[0.44, 0.15, 160, 28, 2, 3]} />
+              <meshPhysicalMaterial
+                color={i === 1 ? "#8ab4ff" : "#d6dde8"}
+                metalness={0.98}
+                roughness={0.16}
+                clearcoat={1}
+                clearcoatRoughness={0.04}
+                reflectivity={1}
+                envMapIntensity={1.5}
+                emissive={i === 1 ? "#1a4aff" : "#000000"}
+                emissiveIntensity={i === 1 ? 0.35 : 0}
+              />
+            </mesh>
+          ))}
+        </group>
+      </Float>
+
+      {/* Orbit rings */}
       {[0, 1, 2].map((i) => (
         <mesh key={`r${i}`} rotation={[Math.PI / 2 + i * 0.6, i * 0.9, i * 0.3]}>
-          <torusGeometry args={[2.1 + i * 0.35, 0.008, 12, 128]} />
-          <meshBasicMaterial color="#8ab4ff" transparent opacity={0.35 - i * 0.08} />
+          <torusGeometry args={[2.1 + i * 0.35, 0.006, 12, 128]} />
+          <meshBasicMaterial color="#8ab4ff" transparent opacity={0.3 - i * 0.07} />
         </mesh>
       ))}
     </group>
