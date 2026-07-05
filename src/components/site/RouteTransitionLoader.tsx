@@ -1,5 +1,6 @@
 import { useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { ParticleLogo } from "./ParticleLogo";
 
 const loaderLogoUrl = "/sysoft-loader.png";
 const INITIAL_LOADER_MS = 5000;
@@ -133,43 +134,42 @@ export function RouteTransitionLoader() {
       }`}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-background/92 backdrop-blur-lg" />
-      <div className="absolute inset-0 grid-bg opacity-45 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.16_0.05_265)_0%,oklch(0.08_0.03_265)_70%,#000_100%)]" />
+      <div className="absolute inset-0 backdrop-blur-xl" />
+      <div className="absolute inset-0 grid-bg opacity-30 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
+      {/* Aurora blobs */}
+      <div className="pointer-events-none absolute -top-24 left-1/4 h-[420px] w-[420px] rounded-full bg-[#3b82f6]/25 blur-[120px] animate-pulse" />
+      <div className="pointer-events-none absolute bottom-0 right-1/4 h-[420px] w-[420px] rounded-full bg-[#7c5cff]/25 blur-[120px] animate-pulse" />
 
-      {/* Logo reveal */}
-      <div className="relative flex flex-col items-center gap-6">
-        <div className="relative size-24 transform-gpu will-change-transform">
-          {/* Rotating gradient ring */}
-          <div className="absolute inset-0 rounded-full bg-gradient-cta opacity-70 blur-xl animate-pulse" />
-          <div className="absolute inset-[-6px] rounded-full border border-brand/30 loader-ring" />
-          <div className="absolute inset-[-14px] rounded-full border border-brand/10 loader-ring-slow" />
-
-          {/* Logo */}
-          <div className="relative size-24 rounded-full bg-card/90 border border-border backdrop-blur flex items-center justify-center overflow-hidden shadow-[0_0_56px_-8px_oklch(0.7_0.2_260/80%)] loader-logo-pop transform-gpu will-change-transform">
-            <span className="font-mono-tech text-2xl font-bold tracking-tighter text-foreground" aria-hidden="true">
-              S$S
-            </span>
-            <img
-              src={loaderLogoUrl}
-              alt="SySoft Systems"
-              className="absolute size-14 object-contain"
-              onError={(event) => {
-                event.currentTarget.style.display = "none";
-              }}
-            />
-            {/* Shimmer sweep */}
-            <div className="absolute inset-0 loader-shimmer" />
+      {/* Particle assembly wordmark */}
+      <div className="relative flex flex-col items-center gap-8 px-6">
+        <div className="relative w-full max-w-[560px]">
+          {/* Glass plate */}
+          <div className="absolute inset-0 -m-6 rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-md shadow-[0_30px_120px_-30px_rgba(80,120,255,0.6)]" />
+          {/* Titanium sheen top edge */}
+          <div className="absolute -top-px left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+          <div className="relative">
+            <ParticleLogo text="S·S·S" height={220} />
+          </div>
+          {/* Reflection */}
+          <div className="relative -mt-4 h-16 overflow-hidden opacity-40 [mask-image:linear-gradient(to_bottom,black,transparent)]">
+            <div className="scale-y-[-1] origin-top">
+              <ParticleLogo text="S·S·S" height={80} />
+            </div>
           </div>
         </div>
 
         {/* Progress bar */}
-        <div className="w-48 h-[2px] rounded-full bg-white/10 overflow-hidden">
-          <div className="h-full w-1/3 bg-gradient-cta loader-progress" />
+        <div className="relative w-64 h-[2px] rounded-full bg-white/10 overflow-hidden">
+          <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-[#9cc4ff] to-transparent loader-progress" />
         </div>
 
-        <div className="font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          Loading Module
+        <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/50">
+          Assembling · SySoft Systems
         </div>
+
+        {/* Hidden fallback preserving prior asset ref */}
+        <img src={loaderLogoUrl} alt="" className="hidden" aria-hidden="true" onError={(e) => { e.currentTarget.style.display = "none"; }} />
       </div>
     </div>
   );
