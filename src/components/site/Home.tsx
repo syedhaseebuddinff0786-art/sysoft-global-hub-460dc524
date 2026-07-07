@@ -3,6 +3,7 @@ import { Hero3D } from "@/components/site/Hero3D";
 import { EcosystemNetwork } from "@/components/site/EcosystemNetwork";
 import { MagneticButton, TiltCard } from "@/components/site/MagneticButton";
 import { Reveal } from "@/components/site/Reveal";
+import { COUNTRIES, FLAGSHIP_PRODUCTS } from "@/data/catalog";
 
 const categories = [
   { code: "01/ERP", name: "Enterprise Resource", desc: "Operational logistics and planning." },
@@ -64,9 +65,11 @@ export function Home() {
         <Hero />
         <TrustBar />
         <EcosystemNetwork />
+        <FlagshipShowcase />
         <CategoryGrid />
         <StatsBand />
         <IndustriesSection />
+        <GlobalPresence />
         <EnterpriseSection />
         <TechStackSection />
         <TestimonialsSection />
