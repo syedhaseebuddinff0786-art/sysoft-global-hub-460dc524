@@ -3,6 +3,7 @@ import { Hero3D } from "@/components/site/Hero3D";
 import { EcosystemNetwork } from "@/components/site/EcosystemNetwork";
 import { MagneticButton, TiltCard } from "@/components/site/MagneticButton";
 import { Reveal } from "@/components/site/Reveal";
+import { COUNTRIES, FLAGSHIP_PRODUCTS } from "@/data/catalog";
 
 const categories = [
   { code: "01/ERP", name: "Enterprise Resource", desc: "Operational logistics and planning." },
@@ -64,9 +65,11 @@ export function Home() {
         <Hero />
         <TrustBar />
         <EcosystemNetwork />
+        <FlagshipShowcase />
         <CategoryGrid />
         <StatsBand />
         <IndustriesSection />
+        <GlobalPresence />
         <EnterpriseSection />
         <TechStackSection />
         <TestimonialsSection />
@@ -454,6 +457,107 @@ function CTASection() {
               Read Documentation
             </a>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FlagshipShowcase() {
+  const statusStyles: Record<string, string> = {
+    Live: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10",
+    Beta: "text-amber-300 border-amber-300/30 bg-amber-300/10",
+    "Coming Soon": "text-brand border-brand/30 bg-brand/10",
+  };
+  return (
+    <section id="flagship" className="relative border-y border-border bg-surface-dark text-white overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-20 [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
+      <div className="absolute -top-40 left-1/3 h-[420px] w-[420px] rounded-full bg-brand/20 blur-[140px]" />
+      <div className="relative max-w-7xl mx-auto px-6 py-24">
+        <Reveal className="max-w-2xl mb-14">
+          <div className="font-mono-tech text-xs text-brand uppercase tracking-widest mb-3">
+            [ Flagship Products ]
+          </div>
+          <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight mb-4 text-gradient">
+            Branded platforms, shipping today.
+          </h2>
+          <p className="text-white/70 text-lg">
+            A growing family of production-grade products powering thousands of
+            businesses — each one engineered on the SySoft core.
+          </p>
+        </Reveal>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {FLAGSHIP_PRODUCTS.map((p, i) => (
+            <Reveal key={p.name} delay={(i % 4) * 60}>
+              <TiltCard
+                intensity={8}
+                className="relative h-full rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-5 overflow-hidden group hover:border-brand/50 transition-colors"
+              >
+                <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_top_right,oklch(0.75_0.18_240/0.25),transparent_60%)]" />
+                <div className="flex items-start justify-between mb-6">
+                  <div className="font-mono-tech text-[10px] uppercase tracking-widest text-white/50">
+                    {p.category}
+                  </div>
+                  <span className={`font-mono-tech text-[9px] px-2 py-0.5 rounded-full border ${statusStyles[p.status]}`}>
+                    {p.status}
+                  </span>
+                </div>
+                <h3 className="text-lg font-extrabold tracking-tight mb-1 group-hover:text-brand transition-colors">
+                  {p.name}
+                </h3>
+                <p className="text-xs text-white/60 leading-relaxed">{p.tagline}</p>
+              </TiltCard>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GlobalPresence() {
+  return (
+    <section id="global" className="max-w-7xl mx-auto px-6 py-24">
+      <div className="grid lg:grid-cols-[1fr_2fr] gap-16 items-start">
+        <Reveal>
+          <div className="font-mono-tech text-xs text-brand uppercase tracking-widest mb-3">
+            [ Global Presence ]
+          </div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight mb-4">
+            Engineered in 13 focus markets.
+          </h2>
+          <p className="text-muted-foreground">
+            SySoft Systems operates and partners across strategic regions — delivering
+            localized deployments, multi-currency, and multi-lingual support.
+          </p>
+          <div className="mt-8 grid grid-cols-3 gap-6 max-w-xs">
+            <div>
+              <div className="text-3xl font-extrabold tracking-tight">13</div>
+              <div className="text-xs font-mono-tech uppercase tracking-widest text-muted-foreground mt-1">Markets</div>
+            </div>
+            <div>
+              <div className="text-3xl font-extrabold tracking-tight">4</div>
+              <div className="text-xs font-mono-tech uppercase tracking-widest text-muted-foreground mt-1">Continents</div>
+            </div>
+            <div>
+              <div className="text-3xl font-extrabold tracking-tight">24/7</div>
+              <div className="text-xs font-mono-tech uppercase tracking-widest text-muted-foreground mt-1">Support</div>
+            </div>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-px bg-border border border-border">
+          {COUNTRIES.map((c) => (
+            <div
+              key={c.code}
+              className="bg-background px-4 py-5 flex items-center gap-3 hover:bg-accent/40 transition-colors"
+            >
+              <span className="text-2xl leading-none" aria-hidden>{c.flag}</span>
+              <div>
+                <div className="text-sm font-semibold">{c.name}</div>
+                <div className="font-mono-tech text-[10px] text-muted-foreground uppercase tracking-widest">{c.code}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
