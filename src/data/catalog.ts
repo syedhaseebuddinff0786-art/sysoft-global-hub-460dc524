@@ -23,6 +23,51 @@ export const TECHNOLOGIES = [
   "Docker", "Kubernetes", "AWS", "Azure", "GCP",
 ] as const;
 
+export type Country = { code: string; name: string; flag: string };
+
+export const COUNTRIES: Country[] = [
+  { code: "AF", name: "Afghanistan", flag: "🇦🇫" },
+  { code: "AU", name: "Australia", flag: "🇦🇺" },
+  { code: "CA", name: "Canada", flag: "🇨🇦" },
+  { code: "EG", name: "Egypt", flag: "🇪🇬" },
+  { code: "IN", name: "India", flag: "🇮🇳" },
+  { code: "IQ", name: "Iraq", flag: "🇮🇶" },
+  { code: "JO", name: "Jordan", flag: "🇯🇴" },
+  { code: "PS", name: "Palestine", flag: "🇵🇸" },
+  { code: "ES", name: "Spain", flag: "🇪🇸" },
+  { code: "SY", name: "Syria", flag: "🇸🇾" },
+  { code: "TR", name: "Turkey", flag: "🇹🇷" },
+  { code: "AE", name: "UAE", flag: "🇦🇪" },
+  { code: "US", name: "United States", flag: "🇺🇸" },
+];
+
+export type FlagshipProduct = {
+  name: string;
+  category: string;
+  tagline: string;
+  status: "Live" | "Beta" | "Coming Soon";
+};
+
+export const FLAGSHIP_PRODUCTS: FlagshipProduct[] = [
+  { name: "CartNex", category: "E-commerce", tagline: "Headless commerce & marketplaces.", status: "Live" },
+  { name: "MediCore ERP", category: "Healthcare", tagline: "Hospital & clinic operations suite.", status: "Live" },
+  { name: "DineHub", category: "Restaurants", tagline: "Restaurant POS & kitchen workflow.", status: "Live" },
+  { name: "MenuSnap", category: "Restaurants", tagline: "Digital menus & instant ordering.", status: "Live" },
+  { name: "EduNova", category: "Education", tagline: "Campus, LMS & examination cloud.", status: "Live" },
+  { name: "OrderlyX", category: "Logistics", tagline: "Order & fulfillment orchestration.", status: "Live" },
+  { name: "Examara", category: "Education", tagline: "Online exams & proctoring.", status: "Live" },
+  { name: "Scholaro", category: "Education", tagline: "Student information system.", status: "Live" },
+  { name: "FoodoraX", category: "Food Delivery", tagline: "Multi-vendor food delivery stack.", status: "Live" },
+  { name: "ShopWave", category: "Retail", tagline: "Retail chain & franchise ops.", status: "Live" },
+  { name: "GateFlow", category: "Access Control", tagline: "Entry, visitor & gate automation.", status: "Live" },
+  { name: "Store Flow", category: "Retail", tagline: "Store operations & inventory.", status: "Live" },
+  { name: "GateSync", category: "Access Control", tagline: "Multi-site access synchronization.", status: "Beta" },
+  { name: "Tiffin ox", category: "Food Delivery", tagline: "Subscription tiffin & meal plans.", status: "Live" },
+  { name: "Hostel Flow", category: "Hospitality", tagline: "Hostel management & bookings.", status: "Live" },
+  { name: "Vendrix POS", category: "Retail", tagline: "Multi-outlet point of sale.", status: "Live" },
+  { name: "MealForge", category: "Restaurants", tagline: "Cloud kitchen production suite.", status: "Beta" },
+];
+
 export const CATEGORIES: ProductCategory[] = [
   {
     slug: "erp",
