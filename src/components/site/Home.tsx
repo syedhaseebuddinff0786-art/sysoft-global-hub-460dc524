@@ -4,6 +4,8 @@ import { EcosystemNetwork } from "@/components/site/EcosystemNetwork";
 import { MagneticButton, TiltCard } from "@/components/site/MagneticButton";
 import { Reveal } from "@/components/site/Reveal";
 import { COUNTRIES, FLAGSHIP_PRODUCTS } from "@/data/catalog";
+import { LeadDialog } from "@/components/site/LeadDialog";
+import { Link } from "@tanstack/react-router";
 
 const categories = [
   { code: "01/ERP", name: "Enterprise Resource", desc: "Operational logistics and planning." },
@@ -489,26 +491,46 @@ function FlagshipShowcase() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {FLAGSHIP_PRODUCTS.map((p, i) => (
             <Reveal key={p.name} delay={(i % 4) * 60}>
-              <TiltCard
-                intensity={8}
-                className="relative h-full rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-5 overflow-hidden group hover:border-brand/50 transition-colors"
+              <Link
+                to="/products/branded/$slug"
+                params={{ slug: p.slug }}
+                className="block h-full"
               >
-                <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_top_right,oklch(0.75_0.18_240/0.25),transparent_60%)]" />
-                <div className="flex items-start justify-between mb-6">
-                  <div className="font-mono-tech text-[10px] uppercase tracking-widest text-white/50">
-                    {p.category}
+                <TiltCard
+                  intensity={8}
+                  className="relative h-full rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-5 overflow-hidden group hover:border-brand/50 transition-colors"
+                >
+                  <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_top_right,oklch(0.75_0.18_240/0.25),transparent_60%)]" />
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="font-mono-tech text-[10px] uppercase tracking-widest text-white/50">
+                      {p.category}
+                    </div>
+                    <span className={`font-mono-tech text-[9px] px-2 py-0.5 rounded-full border ${statusStyles[p.status]}`}>
+                      {p.status}
+                    </span>
                   </div>
-                  <span className={`font-mono-tech text-[9px] px-2 py-0.5 rounded-full border ${statusStyles[p.status]}`}>
-                    {p.status}
-                  </span>
-                </div>
-                <h3 className="text-lg font-extrabold tracking-tight mb-1 group-hover:text-brand transition-colors">
-                  {p.name}
-                </h3>
-                <p className="text-xs text-white/60 leading-relaxed">{p.tagline}</p>
-              </TiltCard>
+                  <h3 className="text-lg font-extrabold tracking-tight mb-1 group-hover:text-brand transition-colors">
+                    {p.name}
+                  </h3>
+                  <p className="text-xs text-white/60 leading-relaxed">{p.tagline}</p>
+                </TiltCard>
+              </Link>
             </Reveal>
           ))}
+        </div>
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+          <LeadDialog
+            source="home:flagship"
+            title="Book a flagship product demo"
+            description="Tell us which platform you're evaluating and we'll set up a live walkthrough with a solutions engineer."
+          >
+            <button className="px-6 py-3 rounded-full bg-white text-black font-semibold text-sm hover:opacity-90 transition-opacity">
+              Request a flagship demo →
+            </button>
+          </LeadDialog>
+          <Link to="/products" className="px-6 py-3 rounded-full border border-white/20 text-white/80 text-sm font-medium hover:bg-white/5 transition-colors">
+            Browse all products
+          </Link>
         </div>
       </div>
     </section>
@@ -543,6 +565,17 @@ function GlobalPresence() {
               <div className="text-3xl font-extrabold tracking-tight">24/7</div>
               <div className="text-xs font-mono-tech uppercase tracking-widest text-muted-foreground mt-1">Support</div>
             </div>
+          </div>
+          <div className="mt-8">
+            <LeadDialog
+              source="home:global"
+              title="Deploy SySoft in your region"
+              description="Share your country and use case — we'll route you to the nearest regional team."
+            >
+              <button className="px-6 py-3 rounded-full bg-foreground text-background font-semibold text-sm hover:opacity-90 transition-opacity">
+                Talk to a regional team →
+              </button>
+            </LeadDialog>
           </div>
         </Reveal>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-px bg-border border border-border">

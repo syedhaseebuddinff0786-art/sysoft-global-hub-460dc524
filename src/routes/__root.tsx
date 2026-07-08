@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { RouteTransitionLoader } from "@/components/site/RouteTransitionLoader";
 import { CustomCursor } from "@/components/site/CustomCursor";
 import { AuroraBackground } from "@/components/site/AuroraBackground";
+import { Toaster } from "sonner";
 
 function NotFoundComponent() {
   return (
@@ -166,6 +167,7 @@ function RootComponent() {
       <RouteTransitionLoader />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <Toaster position="top-right" theme="dark" richColors closeButton />
     </QueryClientProvider>
   );
 }

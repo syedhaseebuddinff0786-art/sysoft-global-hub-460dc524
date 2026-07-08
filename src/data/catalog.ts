@@ -42,31 +42,74 @@ export const COUNTRIES: Country[] = [
 ];
 
 export type FlagshipProduct = {
+  slug: string;
   name: string;
   category: string;
   tagline: string;
   status: "Live" | "Beta" | "Coming Soon";
+  deployment: "SaaS" | "Source Code" | "SaaS · Source Code";
+  description: string;
+  industries: string[];
+  features: string[];
 };
 
 export const FLAGSHIP_PRODUCTS: FlagshipProduct[] = [
-  { name: "CartNex", category: "E-commerce", tagline: "Headless commerce & marketplaces.", status: "Live" },
-  { name: "MediCore ERP", category: "Healthcare", tagline: "Hospital & clinic operations suite.", status: "Live" },
-  { name: "DineHub", category: "Restaurants", tagline: "Restaurant POS & kitchen workflow.", status: "Live" },
-  { name: "MenuSnap", category: "Restaurants", tagline: "Digital menus & instant ordering.", status: "Live" },
-  { name: "EduNova", category: "Education", tagline: "Campus, LMS & examination cloud.", status: "Live" },
-  { name: "OrderlyX", category: "Logistics", tagline: "Order & fulfillment orchestration.", status: "Live" },
-  { name: "Examara", category: "Education", tagline: "Online exams & proctoring.", status: "Live" },
-  { name: "Scholaro", category: "Education", tagline: "Student information system.", status: "Live" },
-  { name: "FoodoraX", category: "Food Delivery", tagline: "Multi-vendor food delivery stack.", status: "Live" },
-  { name: "ShopWave", category: "Retail", tagline: "Retail chain & franchise ops.", status: "Live" },
-  { name: "GateFlow", category: "Access Control", tagline: "Entry, visitor & gate automation.", status: "Live" },
-  { name: "Store Flow", category: "Retail", tagline: "Store operations & inventory.", status: "Live" },
-  { name: "GateSync", category: "Access Control", tagline: "Multi-site access synchronization.", status: "Beta" },
-  { name: "Tiffin ox", category: "Food Delivery", tagline: "Subscription tiffin & meal plans.", status: "Live" },
-  { name: "Hostel Flow", category: "Hospitality", tagline: "Hostel management & bookings.", status: "Live" },
-  { name: "Vendrix POS", category: "Retail", tagline: "Multi-outlet point of sale.", status: "Live" },
-  { name: "MealForge", category: "Restaurants", tagline: "Cloud kitchen production suite.", status: "Beta" },
+  { slug: "cartnex", name: "CartNex", category: "E-commerce", tagline: "Headless commerce & marketplaces.", status: "Live", deployment: "SaaS · Source Code",
+    description: "Headless, multi-vendor commerce platform with PWA storefronts, subscriptions, and marketplace payouts. Ships as SaaS or licensed source.",
+    industries: ["E-commerce", "Retail", "Startups"], features: ["Multi-vendor marketplace", "Headless storefront APIs", "Subscriptions & recurring billing", "PWA & mobile apps"] },
+  { slug: "medicore-erp", name: "MediCore ERP", category: "Healthcare", tagline: "Hospital & clinic operations suite.", status: "Live", deployment: "SaaS · Source Code",
+    description: "End-to-end hospital ERP covering EMR, OPD/IPD, pharmacy, laboratory, radiology, insurance, and telemedicine.",
+    industries: ["Healthcare", "Insurance"], features: ["EMR & clinical notes", "OPD / IPD workflow", "Pharmacy & lab", "Insurance & TPA billing"] },
+  { slug: "dinehub", name: "DineHub", category: "Restaurants", tagline: "Restaurant POS & kitchen workflow.", status: "Live", deployment: "SaaS",
+    description: "Full-service restaurant POS with table plans, kitchen display, promotions, and multi-outlet consolidation.",
+    industries: ["Restaurants", "Hospitality"], features: ["Table & floor plan", "KDS", "Loyalty & promos", "Multi-outlet reports"] },
+  { slug: "menusnap", name: "MenuSnap", category: "Restaurants", tagline: "Digital menus & instant ordering.", status: "Live", deployment: "SaaS",
+    description: "QR-based digital menu and instant-ordering system for dine-in, takeaway, and delivery.",
+    industries: ["Restaurants", "Hospitality"], features: ["QR menus", "Contactless ordering", "Payments", "Kitchen routing"] },
+  { slug: "edunova", name: "EduNova", category: "Education", tagline: "Campus, LMS & examination cloud.", status: "Live", deployment: "SaaS · Source Code",
+    description: "Complete campus cloud — admissions, LMS, exams, fees, transport, hostel, and parent portals.",
+    industries: ["Education", "Government"], features: ["Admissions", "LMS", "Examinations", "Fees & transport"] },
+  { slug: "orderlyx", name: "OrderlyX", category: "Logistics", tagline: "Order & fulfillment orchestration.", status: "Live", deployment: "SaaS",
+    description: "Order orchestration and fulfillment platform with warehouse routing, POD, and courier integrations.",
+    industries: ["Logistics", "E-commerce", "Retail"], features: ["OMS", "Warehouse routing", "Courier hub", "Proof of delivery"] },
+  { slug: "examara", name: "Examara", category: "Education", tagline: "Online exams & proctoring.", status: "Live", deployment: "SaaS",
+    description: "Online examination and remote-proctoring platform with question banks, secure browser, and analytics.",
+    industries: ["Education", "Large Enterprise"], features: ["Question banks", "Remote proctoring", "Secure browser", "Analytics"] },
+  { slug: "scholaro", name: "Scholaro", category: "Education", tagline: "Student information system.", status: "Live", deployment: "SaaS · Source Code",
+    description: "Student information system for K-12 and higher-ed, from enrollment to alumni.",
+    industries: ["Education"], features: ["Enrollment", "Academics", "Attendance", "Alumni"] },
+  { slug: "foodorax", name: "FoodoraX", category: "Food Delivery", tagline: "Multi-vendor food delivery stack.", status: "Live", deployment: "SaaS · Source Code",
+    description: "Multi-vendor food delivery marketplace with customer, vendor, and driver apps.",
+    industries: ["Restaurants", "E-commerce", "Startups"], features: ["Vendor app", "Driver app", "Live tracking", "Payouts"] },
+  { slug: "shopwave", name: "ShopWave", category: "Retail", tagline: "Retail chain & franchise ops.", status: "Live", deployment: "SaaS · Source Code",
+    description: "Chain-retail operations with franchise consolidation, inventory sync, and financial reporting.",
+    industries: ["Retail", "E-commerce"], features: ["Chain reporting", "Franchise ops", "Inventory sync", "Loyalty"] },
+  { slug: "gateflow", name: "GateFlow", category: "Access Control", tagline: "Entry, visitor & gate automation.", status: "Live", deployment: "SaaS",
+    description: "Entry, visitor, and gate-automation system with ANPR, biometrics, and audit trails.",
+    industries: ["Manufacturing", "Real Estate", "Government"], features: ["Visitor management", "ANPR / biometrics", "Audit trail", "Multi-site"] },
+  { slug: "store-flow", name: "Store Flow", category: "Retail", tagline: "Store operations & inventory.", status: "Live", deployment: "SaaS",
+    description: "Single-store operations, inventory, and daily-close workflow for independent retailers.",
+    industries: ["Retail", "Small Business"], features: ["Daily close", "Inventory", "Cash & shift", "Receipts"] },
+  { slug: "gatesync", name: "GateSync", category: "Access Control", tagline: "Multi-site access synchronization.", status: "Beta", deployment: "SaaS",
+    description: "Multi-site access synchronization with centralized policies, offline fallback, and SSO.",
+    industries: ["Large Enterprise", "Manufacturing", "Government"], features: ["Central policy", "Offline fallback", "SSO", "Federated sites"] },
+  { slug: "tiffin-ox", name: "Tiffin ox", category: "Food Delivery", tagline: "Subscription tiffin & meal plans.", status: "Live", deployment: "SaaS",
+    description: "Tiffin and meal-plan subscription platform with route-based delivery and pause/resume.",
+    industries: ["Restaurants", "Small Business"], features: ["Meal plans", "Route delivery", "Pause / resume", "Customer app"] },
+  { slug: "hostel-flow", name: "Hostel Flow", category: "Hospitality", tagline: "Hostel management & bookings.", status: "Live", deployment: "SaaS",
+    description: "Hostel management and booking system with room allocation, mess, and fee cycles.",
+    industries: ["Hospitality", "Education"], features: ["Bookings", "Room allocation", "Mess", "Fees"] },
+  { slug: "vendrix-pos", name: "Vendrix POS", category: "Retail", tagline: "Multi-outlet point of sale.", status: "Live", deployment: "SaaS · Source Code",
+    description: "Multi-outlet POS with offline sync, barcode, KDS, and consolidated reporting.",
+    industries: ["Retail", "Restaurants"], features: ["Offline sync", "Barcode / KDS", "Multi-outlet", "Reports"] },
+  { slug: "mealforge", name: "MealForge", category: "Restaurants", tagline: "Cloud kitchen production suite.", status: "Beta", deployment: "SaaS",
+    description: "Cloud-kitchen production suite for multi-brand kitchens with recipe, batch, and delivery routing.",
+    industries: ["Restaurants", "Logistics"], features: ["Recipe engine", "Batch production", "Multi-brand", "Delivery routing"] },
 ];
+
+export function getFlagshipBySlug(slug: string): FlagshipProduct | undefined {
+  return FLAGSHIP_PRODUCTS.find((p) => p.slug === slug);
+}
 
 export const CATEGORIES: ProductCategory[] = [
   {
