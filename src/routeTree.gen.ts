@@ -20,6 +20,7 @@ import { Route as SolutionsRouteImport } from './routes/solutions'
 import { Route as PortalDashboardRouteImport } from './routes/portal.dashboard'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
 import { Route as ProductsCategoryRouteImport } from './routes/products.$category'
+import { Route as ProductsBrandedSlugRouteImport } from './routes/products.branded.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,6 +77,11 @@ const ProductsCategoryRoute = ProductsCategoryRouteImport.update({
   path: '/$category',
   getParentRoute: () => ProductsRoute,
 } as any)
+const ProductsBrandedSlugRoute = ProductsBrandedSlugRouteImport.update({
+  id: '/branded/$slug',
+  path: '/branded/$slug',
+  getParentRoute: () => ProductsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/portal/dashboard': typeof PortalDashboardRoute
   '/portal/login': typeof PortalLoginRoute
   '/products/$category': typeof ProductsCategoryRoute
+  '/products/branded/$slug': typeof ProductsBrandedSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/portal/dashboard': typeof PortalDashboardRoute
   '/portal/login': typeof PortalLoginRoute
   '/products/$category': typeof ProductsCategoryRoute
+  '/products/branded/$slug': typeof ProductsBrandedSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/portal/dashboard': typeof PortalDashboardRoute
   '/portal/login': typeof PortalLoginRoute
   '/products/$category': typeof ProductsCategoryRoute
+  '/products/branded/$slug': typeof ProductsBrandedSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
     | '/portal/dashboard'
     | '/portal/login'
     | '/products/$category'
+    | '/products/branded/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/portal/dashboard'
     | '/portal/login'
     | '/products/$category'
+    | '/products/branded/$slug'
   id:
     | '__root__'
     | '/'
@@ -157,6 +168,7 @@ export interface FileRouteTypes {
     | '/portal/dashboard'
     | '/portal/login'
     | '/products/$category'
+    | '/products/branded/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -251,15 +263,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsCategoryRouteImport
       parentRoute: typeof ProductsRoute
     }
+    '/products/branded/$slug': {
+      id: '/products/branded/$slug'
+      path: '/branded/$slug'
+      fullPath: '/products/branded/$slug'
+      preLoaderRoute: typeof ProductsBrandedSlugRouteImport
+      parentRoute: typeof ProductsRoute
+    }
   }
 }
 
 interface ProductsRouteChildren {
   ProductsCategoryRoute: typeof ProductsCategoryRoute
+  ProductsBrandedSlugRoute: typeof ProductsBrandedSlugRoute
 }
 
 const ProductsRouteChildren: ProductsRouteChildren = {
   ProductsCategoryRoute: ProductsCategoryRoute,
+  ProductsBrandedSlugRoute: ProductsBrandedSlugRoute,
 }
 
 const ProductsRouteWithChildren = ProductsRoute._addFileChildren(

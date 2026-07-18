@@ -1,6 +1,12 @@
-import dashboardPreview from "@/assets/dashboard-preview.jpg";
 import { SiteNav, SiteFooter } from "@/components/site/SiteChrome";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { Hero3D } from "@/components/site/Hero3D";
+import { EcosystemNetwork } from "@/components/site/EcosystemNetwork";
+import { MagneticButton, TiltCard } from "@/components/site/MagneticButton";
+import { Reveal } from "@/components/site/Reveal";
+import { COUNTRIES, FLAGSHIP_PRODUCTS } from "@/data/catalog";
+import { LeadDialog } from "@/components/site/LeadDialog";
+import { Link } from "@tanstack/react-router";
 
 const categories = [
   { code: "01/ERP", name: "Enterprise Resource", desc: "Operational logistics and planning." },
@@ -87,9 +93,12 @@ export function Home() {
       <main>
         <Hero />
         <TrustBar />
+        <EcosystemNetwork />
+        <FlagshipShowcase />
         <CategoryGrid />
         <StatsBand />
         <IndustriesSection />
+        <GlobalPresence />
         <EnterpriseSection />
         <TechStackSection />
         <TestimonialsSection />
@@ -103,8 +112,8 @@ export function Home() {
 
 function Hero() {
   return (
-    <section className="relative pt-16 sm:pt-24 pb-20 border-b border-border overflow-hidden">
-      <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_at_top,black,transparent_75%)]" />
+    <section className="relative pt-16 sm:pt-24 pb-20 border-b border-border overflow-hidden min-h-[92vh] flex items-center">
+      <div className="absolute inset-0 grid-bg opacity-30 [mask-image:radial-gradient(ellipse_at_top,black,transparent_75%)]" />
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-[10%] size-72 rounded-full bg-brand/10 blur-[100px] animate-float-slow" />
@@ -113,9 +122,17 @@ function Hero() {
         <div className="absolute top-10 left-[30%] size-32 rounded-full bg-brand/5 blur-[80px] animate-pulse-glow" />
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-6 text-center">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]">
+          <Hero3D />
+        </div>
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
+      </div>
+
+      <div className="relative max-w-6xl mx-auto px-6 text-center w-full">
         <div className="animate-up">
-          <a href="#products" className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card/60 backdrop-blur text-xs font-mono-tech text-muted-foreground mb-8 hover:text-foreground transition-colors group">
+          <a href="#products" className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card/60 backdrop-blur-xl text-xs font-mono-tech text-muted-foreground mb-8 hover:text-foreground transition-colors group">
             <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_theme(colors.emerald.400)]" />
             The Official Enterprise Platform of SySoft
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1" aria-hidden>→</span>
@@ -126,35 +143,36 @@ function Hero() {
           <p className="font-mono-tech text-sm sm:text-base text-brand mb-6 animate-pulse-glow" style={{ animationDuration: "2s" }}>
             &gt; One ecosystem. Many specialized suites._
           </p>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10 text-pretty">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10 text-pretty backdrop-blur-[2px]">
             SySoft Systems engineers ERP, CRM, AI, and vertical SaaS platforms — the
             technical foundation trusted by the world's most ambitious organizations
             across 140+ countries.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <a href="#products" className="group relative px-6 py-3 bg-gradient-cta text-primary-foreground font-medium rounded-full shadow-[0_0_40px_-8px_oklch(0.7_0.2_260/70%)] hover:opacity-95 transition-all duration-300 inline-flex items-center gap-2 overflow-hidden">
-              <span className="relative z-10">Explore Products</span>
-              <span className="relative z-10 inline-block transition-transform duration-300 group-hover:translate-x-1" aria-hidden>→</span>
-              <span className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-            </a>
-            <a href="#docs" className="px-6 py-3 border border-border bg-card/60 backdrop-blur font-medium rounded-full hover:bg-white/5 transition-all duration-300 hover:border-brand/50 hover:shadow-[0_0_30px_-8px_oklch(0.7_0.2_260/30%)]">
+            <MagneticButton
+              href="#products"
+              className="btn-glass cursor-magnet px-6 py-3 bg-gradient-cta text-primary-foreground font-medium rounded-full shadow-[0_0_40px_-8px_oklch(0.7_0.2_260/70%)] hover:shadow-[0_0_60px_-6px_oklch(0.7_0.2_260/85%)] hover:opacity-95 transition-all"
+            >
+              Explore Products <span aria-hidden>→</span>
+            </MagneticButton>
+            <MagneticButton
+              href="#docs"
+              strength={0.2}
+              className="btn-glass cursor-magnet px-6 py-3 border border-border bg-card/60 backdrop-blur-xl font-medium rounded-full hover:bg-white/5 transition-colors"
+            >
               Discover the Ecosystem
-            </a>
+            </MagneticButton>
           </div>
-        </div>
-
-        <div className="relative animate-up [animation-delay:200ms] mt-20 group">
-          <div className="absolute inset-x-0 -top-16 h-64 bg-[radial-gradient(ellipse_at_center,oklch(0.7_0.2_260/40%),transparent_70%)] -z-10 group-hover:opacity-80 transition-opacity duration-700" />
-          <div className="relative bg-card/60 backdrop-blur rounded-2xl shadow-2xl border border-border p-2 transition-all duration-500 group-hover:border-brand/30 group-hover:shadow-[0_0_60px_-12px_oklch(0.7_0.2_260/35%)]">
-            <div className="shimmer-overlay rounded-xl">
-              <img
-                src={dashboardPreview}
-                alt="SySoft enterprise analytics dashboard preview"
-                width={1280}
-                height={960}
-                className="w-full aspect-[16/10] object-cover rounded-xl"
-              />
-            </div>
+          <p className="mt-6 font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground/70">
+            Tip: Click the core to unfold the ecosystem
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-2 text-[10px] font-mono-tech uppercase tracking-widest text-muted-foreground">
+            {["neural-core online", "140+ regions", "99.99% sla", "sync stable"].map((s) => (
+              <span key={s} className="px-3 py-1.5 rounded-full border border-border bg-card/40 backdrop-blur-xl inline-flex items-center gap-2">
+                <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                {s}
+              </span>
+            ))}
           </div>
         </div>
       </div>
@@ -213,16 +231,14 @@ function CategoryGrid() {
           </a>
         </div>
 
-        <StaggerChildren>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-border border border-border">
-            {categories.map((c, i) => (
-              <div
-                key={c.code}
-                className="bg-background p-6 card-hover cursor-pointer group"
-                style={{
-                  animation: `content-up 0.5s cubic-bezier(0.19, 1, 0.22, 1) ${i * 0.04}s both`,
-                }}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {categories.map((c, i) => (
+            <Reveal key={c.code} delay={(i % 6) * 60}>
+              <TiltCard
+                intensity={6}
+                className="relative rounded-xl border border-border bg-card/40 backdrop-blur-xl p-5 h-full overflow-hidden group hover:border-brand/40 transition-colors card-hover"
               >
+                <div className="pointer-events-none absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity bg-[linear-gradient(135deg,oklch(0.75_0.18_240/0.2),transparent_60%)]" />
                 <div className="font-mono-tech text-[10px] text-brand mb-4 uppercase tracking-wider">
                   {c.code}
                 </div>
@@ -230,10 +246,10 @@ function CategoryGrid() {
                   {c.name}
                 </h3>
                 <p className="text-xs text-muted-foreground">{c.desc}</p>
-              </div>
-            ))}
-          </div>
-        </StaggerChildren>
+              </TiltCard>
+            </Reveal>
+          ))}
+        </div>
       </section>
     </RevealSection>
   );
@@ -561,5 +577,137 @@ function CTASection() {
         </div>
       </section>
     </RevealSection>
+  );
+}
+
+function FlagshipShowcase() {
+  const statusStyles: Record<string, string> = {
+    Live: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10",
+    Beta: "text-amber-300 border-amber-300/30 bg-amber-300/10",
+    "Coming Soon": "text-brand border-brand/30 bg-brand/10",
+  };
+  return (
+    <section id="flagship" className="relative border-y border-border bg-surface-dark text-white overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-20 [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
+      <div className="absolute -top-40 left-1/3 h-[420px] w-[420px] rounded-full bg-brand/20 blur-[140px]" />
+      <div className="relative max-w-7xl mx-auto px-6 py-24">
+        <Reveal className="max-w-2xl mb-14">
+          <div className="font-mono-tech text-xs text-brand uppercase tracking-widest mb-3">
+            [ Flagship Products ]
+          </div>
+          <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight mb-4 text-gradient">
+            Branded platforms, shipping today.
+          </h2>
+          <p className="text-white/70 text-lg">
+            A growing family of production-grade products powering thousands of
+            businesses — each one engineered on the SySoft core.
+          </p>
+        </Reveal>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {FLAGSHIP_PRODUCTS.map((p, i) => (
+            <Reveal key={p.name} delay={(i % 4) * 60}>
+              <Link
+                to="/products/branded/$slug"
+                params={{ slug: p.slug }}
+                className="block h-full"
+              >
+                <TiltCard
+                  intensity={8}
+                  className="relative h-full rounded-xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-5 overflow-hidden group hover:border-brand/50 transition-colors card-hover"
+                >
+                  <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_top_right,oklch(0.75_0.18_240/0.25),transparent_60%)]" />
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="font-mono-tech text-[10px] uppercase tracking-widest text-white/50">
+                      {p.category}
+                    </div>
+                    <span className={`font-mono-tech text-[9px] px-2 py-0.5 rounded-full border ${statusStyles[p.status]}`}>
+                      {p.status}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-extrabold tracking-tight mb-1 group-hover:text-brand transition-colors">
+                    {p.name}
+                  </h3>
+                  <p className="text-xs text-white/60 leading-relaxed">{p.tagline}</p>
+                </TiltCard>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+          <LeadDialog
+            source="home:flagship"
+            title="Book a flagship product demo"
+            description="Tell us which platform you're evaluating and we'll set up a live walkthrough with a solutions engineer."
+          >
+            <button className="px-6 py-3 rounded-full bg-white text-black font-semibold text-sm hover:opacity-90 transition-opacity">
+              Request a flagship demo →
+            </button>
+          </LeadDialog>
+          <Link to="/products" className="px-6 py-3 rounded-full border border-white/20 text-white/80 text-sm font-medium hover:bg-white/5 transition-colors">
+            Browse all products
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GlobalPresence() {
+  return (
+    <section id="global" className="max-w-7xl mx-auto px-6 py-24">
+      <div className="grid lg:grid-cols-[1fr_2fr] gap-16 items-start">
+        <Reveal>
+          <div className="font-mono-tech text-xs text-brand uppercase tracking-widest mb-3">
+            [ Global Presence ]
+          </div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight mb-4">
+            Engineered in 13 focus markets.
+          </h2>
+          <p className="text-muted-foreground">
+            SySoft Systems operates and partners across strategic regions — delivering
+            localized deployments, multi-currency, and multi-lingual support.
+          </p>
+          <div className="mt-8 grid grid-cols-3 gap-6 max-w-xs">
+            <div>
+              <div className="text-3xl font-extrabold tracking-tight">13</div>
+              <div className="text-xs font-mono-tech uppercase tracking-widest text-muted-foreground mt-1">Markets</div>
+            </div>
+            <div>
+              <div className="text-3xl font-extrabold tracking-tight">4</div>
+              <div className="text-xs font-mono-tech uppercase tracking-widest text-muted-foreground mt-1">Continents</div>
+            </div>
+            <div>
+              <div className="text-3xl font-extrabold tracking-tight">24/7</div>
+              <div className="text-xs font-mono-tech uppercase tracking-widest text-muted-foreground mt-1">Support</div>
+            </div>
+          </div>
+          <div className="mt-8">
+            <LeadDialog
+              source="home:global"
+              title="Deploy SySoft in your region"
+              description="Share your country and use case — we'll route you to the nearest regional team."
+            >
+              <button className="px-6 py-3 rounded-full bg-foreground text-background font-semibold text-sm hover:opacity-90 transition-opacity">
+                Talk to a regional team →
+              </button>
+            </LeadDialog>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-px bg-border border border-border">
+          {COUNTRIES.map((c) => (
+            <div
+              key={c.code}
+              className="bg-background px-4 py-5 flex items-center gap-3 hover:bg-accent/40 transition-colors"
+            >
+              <span className="text-2xl leading-none" aria-hidden>{c.flag}</span>
+              <div>
+                <div className="text-sm font-semibold">{c.name}</div>
+                <div className="font-mono-tech text-[10px] text-muted-foreground uppercase tracking-widest">{c.code}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
